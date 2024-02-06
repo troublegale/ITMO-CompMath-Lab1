@@ -1,4 +1,4 @@
-from matrix_operations import *
+from gauss import *
 import pprint
 
 
@@ -10,9 +10,10 @@ import pprint
 #         print("you want manual")
 
 matrix_example = [
-    [1, 2, 3, 4, 5],
-    [4, 10, 6, 4, 5],
-    [7, 8, 9, 4, 5],
-    [5, 4, 3, 2, 1],
-    [8, 1, 2, 1, 8],
+    [2, -2, 1, -3],
+    [1, 3, -2, 1],
+    [3, -1, -1, 2]
 ]
+pp = pprint.PrettyPrinter()
+solutions = solve_system(matrix_example)
+pp.pprint(solutions)
