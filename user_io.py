@@ -73,7 +73,24 @@ def get_matrix_from_file(filename: str) -> list[list[float]]:
 def print_matrix(matrix: list[list[float]]):
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
-            cur = matrix[i][j]
-            print(cur if cur < 0 else f" {cur}", end="   ")
+            cur = matrix[i][j] if matrix[i][j] != 0 else abs(matrix[i][j])
+            print(cur if cur < 0 else f" {cur}", end="  |  " if j == len(matrix[i]) - 2 else "   ")
         print()
 
+
+def print_equation_system(matrix: list[list[float]]):
+    print("Entered system:")
+    for i in range(len(matrix)):
+        arg_list = [f"x{index + 1}" for index in range(len(matrix[i]))]
+        equation = f"{matrix[i][0]}{arg_list[0]}"
+        for j in range(len(matrix[i]) - 2):
+            equation += f" + {matrix[i][j + 1]}{arg_list[j + 1]}"
+        equation += f" = {matrix[i][-1]}"
+        print(equation)
+
+
+def print_solution(solution: list[float]):
+    arg_list = [f"x{index + 1}" for index in range(len(solution))]
+    print("Solution: ")
+    for i in range(len(solution)):
+        print(f"{arg_list[i]} = {solution[i]}", end=(";  " if i != len(solution) - 1 else "\n"))

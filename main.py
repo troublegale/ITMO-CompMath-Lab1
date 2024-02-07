@@ -1,19 +1,15 @@
 from gauss import *
 from user_io import *
+from matrix_operations import row_echelon_form
 
 
-# if __name__ == "__main__":
-#     user_input = input("Please enter a file name or leave the input blank to enter data manually: ")
-#     if user_input:
-#         print("you want to open", user_input)
-#     else:
-#         print("you want manual")
-# start()
-# matrix_example = [
-#     [2, -2, 1, -3],
-#     [1, 3, -2, 1],
-#     [3, -1, -1, 2]
-# ]
-# print_matrix(matrix_example)
 matrix = get_matrix_from_user_input()
+print()
+print_equation_system(matrix)
+print()
+row_echelon_form(matrix)
+print("Triangular form of the joined matrix:")
 print_matrix(matrix)
+print()
+solution = solve_system(matrix)
+print_solution(solution)
