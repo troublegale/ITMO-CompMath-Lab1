@@ -1,5 +1,5 @@
 from gauss import *
-import pprint
+from user_io import *
 
 
 # if __name__ == "__main__":
@@ -8,12 +8,12 @@ import pprint
 #         print("you want to open", user_input)
 #     else:
 #         print("you want manual")
-
-matrix_example = [
-    [2, -2, 1, -3],
-    [1, 3, -2, 1],
-    [3, -1, -1, 2]
-]
-pp = pprint.PrettyPrinter()
-solutions = solve_system(matrix_example)
-pp.pprint(solutions)
+# start()
+# matrix_example = [
+#     [2, -2, 1, -3],
+#     [1, 3, -2, 1],
+#     [3, -1, -1, 2]
+# ]
+# print_matrix(matrix_example)
+matrix = get_matrix_from_user_input()
+print_matrix(matrix)

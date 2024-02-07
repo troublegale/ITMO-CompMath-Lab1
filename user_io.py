@@ -1,0 +1,79 @@
+from utility import generate_random_matrix
+
+
+def start():
+    print("*** Computational Mathematics, Lab 1: System of linear algebraic equations ***")
+
+
+def determine_input_method() -> str:
+    print("Please, choose the method of data input.")
+    print("Enter the file name to read from file, type '-r' to generate a random system or leave the input blank "
+          "to enter the system manually.")
+    return input("$ ")
+
+
+def get_matrix() -> list[list[float]]:
+    input_method = determine_input_method()
+    if not input_method:
+        return get_matrix_from_user_input()
+    if input_method == "-r":
+        return generate_random_matrix()
+    else:
+        return get_matrix_from_file(input_method)
+
+
+def get_matrix_from_user_input() -> list[list[float]]:
+    size = read_matrix_size_from_user_input()
+    return read_matrix_from_user_input(size)
+
+
+def read_matrix_size_from_user_input() -> int:
+    print("Enter size of the matrix.")
+    while True:
+        size = input("$ ")
+        try:
+            size = int(size)
+            if size > 20:
+                print("This program is designed to work with matrices with size <= 20. Enter a lesser size.")
+                continue
+        except ValueError:
+            print("Please, enter an integer.")
+            continue
+        return size
+
+
+def read_matrix_from_user_input(size: int) -> list[list[float]]:
+    print("Enter the coefficients on the unknowns and free terms, each equation on a separate line.")
+    matrix = [[0.0] * (size + 1) for _ in range(size)]
+    for i in range(size):
+        matrix[i] = read_row_from_user_input(size)
+    return matrix
+
+
+def read_row_from_user_input(size: int) -> list[float]:
+    for i in range(size):
+        while True:
+            row_str = input("$ ")
+            row = row_str.split()
+            if len(row) != size + 1:
+                print("Entered incorrect number of numbers. Try again.")
+                continue
+            try:
+                row = [float(f) for f in row_str.split()]
+            except ValueError:
+                print("Entered incorrect values. Try again.")
+                continue
+            return row
+
+
+def get_matrix_from_file(filename: str) -> list[list[float]]:
+    file = open(filename, "r")
+
+
+def print_matrix(matrix: list[list[float]]):
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            cur = matrix[i][j]
+            print(cur if cur < 0 else f" {cur}", end="   ")
+        print()
+
