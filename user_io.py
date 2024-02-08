@@ -36,17 +36,17 @@ def get_matrix() -> list[list[float]]:
     input_method = __determine_input_method()
     print()
     if not input_method:
-        return get_matrix_from_user_input()
+        return __get_matrix_from_user_input()
     if input_method == "-r":
-        size = read_matrix_size_from_user_input()
+        size = __read_matrix_size_from_user_input()
         return generate_random_matrix(size)
-    return get_matrix_from_file(input_method)
+    return __get_matrix_from_file(input_method)
 
 
 def __get_matrix_from_user_input() -> list[list[float]]:
-    size = read_matrix_size_from_user_input()
+    size = __read_matrix_size_from_user_input()
     print()
-    return read_matrix_from_user_input(size)
+    return __read_matrix_from_user_input(size)
 
 
 def __read_matrix_size_from_user_input() -> int:
@@ -65,7 +65,7 @@ def __read_matrix_from_user_input(size: int) -> list[list[float]]:
           f"({size + 1} total float numbers).")
     matrix = [[0.0] * (size + 1) for _ in range(size)]
     for i in range(size):
-        matrix[i] = read_row_from_user_input(size)
+        matrix[i] = __read_row_from_user_input(size)
     return matrix
 
 
