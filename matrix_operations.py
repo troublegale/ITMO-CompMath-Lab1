@@ -11,8 +11,8 @@ def determinant(matrix: list[list[float]]) -> float:
 
     for i in range(n):
         sign = (-1) ** i
-        minor_matrix = [row[:i] + row[i + 1:] for row in matrix[1:]]
-        result += sign * matrix[0][i] * determinant(minor_matrix)
+        minor = [row[:i] + row[i + 1:] for row in matrix[1:]]
+        result += sign * matrix[0][i] * determinant(minor)
 
     return result
 
@@ -29,7 +29,7 @@ def add_scaled_row(matrix: list[list[float]], source_row: int, target_row: int, 
     matrix[target_row] = [x + y * factor for x, y in zip(matrix[target_row], matrix[source_row])]
 
 
-def row_echelon_form(matrix: list[list[float]]):
+def to_triangular_form(matrix: list[list[float]]):
     rows, cols = len(matrix), len(matrix[0])
     current_column = 0
 

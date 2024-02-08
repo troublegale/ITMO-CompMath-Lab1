@@ -19,6 +19,6 @@ def back_substitution(matrix):
 
 
 def solve_system(matrix):
-    row_echelon_form(matrix)
+    to_triangular_form(matrix)
     solutions = back_substitution(matrix)
     return solutions
