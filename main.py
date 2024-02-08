@@ -18,8 +18,7 @@ if __name__ == "__main__":
             tell_bad_matrix()
             print()
             continue
-        else:
-            tell_good_matrix(det)
+        tell_good_matrix(det)
         print()
         solution = get_solution(matrix)
         print_solution(solution)
