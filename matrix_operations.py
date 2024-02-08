@@ -10,13 +10,13 @@ def to_triangular_form(matrix: list[list[float]]) -> int:
     rows = len(matrix)
     swaps = 0
     for cur in range(rows):
-        if matrix[cur][cur] == 0:
-            row_to_swap = next(i for i in range(cur, rows) if matrix[i][cur] != 0)
-            swap_rows(matrix, cur, row_to_swap)
+        non_zero_row = next((i for i in range(cur, rows) if matrix[i][cur] != 0), None)
+        if non_zero_row is not None:
+            swap_rows(matrix, cur, non_zero_row)
             swaps += 1
-        for i in range(cur + 1, rows):
-            factor = -matrix[i][cur] / matrix[cur][cur]
-            add_scaled_row(matrix, cur, i, factor)
+            for i in range(cur + 1, rows):
+                factor = -matrix[i][cur] / matrix[cur][cur]
+                add_scaled_row(matrix, cur, i, factor)
     return swaps
 
 

@@ -1,13 +1,26 @@
-from gauss import *
 from user_io import *
-from matrix_operations import to_triangular_form
-from utility import *
+from matrix_operations import to_triangular_form, determinant
+from gauss import get_solution
 
 
-matrix = get_matrix_from_user_input()
-# matrix = generate_random_matrix()
-print_equation_system(matrix)
-swaps = to_triangular_form(matrix)
-print_joined_matrix(matrix)
-print(determinant(matrix, swaps))
-print_solution(solve_system(matrix))
+if __name__ == "__main__":
+    start()
+    while True:
+        matrix = get_matrix()
+        print()
+        print_equation_system(matrix)
+        print()
+        swaps = to_triangular_form(matrix)
+        print_triangular_matrix(matrix)
+        print()
+        det = determinant(matrix, swaps)
+        if not det:
+            tell_bad_matrix()
+            print()
+            continue
+        else:
+            tell_good_matrix(det)
+        print()
+        solution = get_solution(matrix)
+        print_solution(solution)
+        print()

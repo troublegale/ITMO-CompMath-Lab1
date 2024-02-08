@@ -1,66 +1,68 @@
 from utility import *
+from checks import *
 
 
-def get_input(message: str) -> str:
+def __get_input(message: str) -> str:
     try:
         return input(message)
-    except EOFError:
+    except (EOFError, KeyboardInterrupt):
         close_application_appropriately()
+
+
+def __tell_to_try_again():
+    print("Your input doesn't meet the criteria. Try again.")
+
+
+def tell_bad_matrix():
+    print("Determinant of this matrix is 0, thus Gauss method can not be used to solve this system. Try another one.")
+
+
+def tell_good_matrix(det: float):
+    print(f"Determinant of this matrix is {det}. Using Gauss method to solve the system.")
 
 
 def start():
-    print("*** Computational Mathematics, Lab 1: System of linear algebraic equations ***")
+    print("\n*** Computational Mathematics, Lab 1: System of linear algebraic equations ***\n")
 
 
-def determine_input_method() -> str:
+def __determine_input_method() -> str:
     print("Please, choose the method of data input.")
     print("Enter the file name to read from file, type '-r' to generate a random system or leave the input blank "
           "to enter the system manually.")
-    return get_input("$ ")
+    return __get_input("$ ")
 
 
 def get_matrix() -> list[list[float]]:
-    input_method = determine_input_method()
+    input_method = __determine_input_method()
+    print()
     if not input_method:
         return get_matrix_from_user_input()
     if input_method == "-r":
-        return generate_random_matrix()
+        size = read_matrix_size_from_user_input()
+        return generate_random_matrix(size)
     return get_matrix_from_file(input_method)
-
-
-def check_gauss_applicability(matrix: list[list[float]]):
-    det = determinant(get_coefficients_matrix(matrix))
-    if not det:
-        print("Determinant of the coefficients matrix is 0, thus Gauss method can't be used to solve this system.")
-        close_application_appropriately()
-    print(f"Determinant of the coefficients matrix is {det}. Using Gauss method to solve the system.")
 
 
 def get_matrix_from_user_input() -> list[list[float]]:
     size = read_matrix_size_from_user_input()
+    print()
     return read_matrix_from_user_input(size)
 
 
 def read_matrix_size_from_user_input() -> int:
-    print("Enter size of the matrix.")
+    print("Enter size of the matrix (an integer from 1 to 20):")
     while True:
-        size = get_input("$ ")
-        try:
-            size = int(size)
-            if size > 20:
-                print("This program is designed to work with matrices with size <= 20. Enter a lesser size.")
-                continue
-            if size < 1:
-                print("Matrix can't be of this size.")
-                continue
-        except ValueError:
-            print("Please, enter an integer.")
-            continue
-        return size
+        size = __get_input("$ ")
+        if check_matrix_size(size):
+            return int(size)
+        else:
+            __tell_to_try_again()
 
 
 def read_matrix_from_user_input(size: int) -> list[list[float]]:
-    print("Enter the coefficients on the unknowns and free terms, each equation on a separate line.")
+    print("Enter the equations, each one on the separate line.")
+    print(f"For each equation enter {size} coefficients for the unknowns and the free term "
+          f"({size + 1} total float numbers).")
     matrix = [[0.0] * (size + 1) for _ in range(size)]
     for i in range(size):
         matrix[i] = read_row_from_user_input(size)
@@ -70,17 +72,12 @@ def read_matrix_from_user_input(size: int) -> list[list[float]]:
 def read_row_from_user_input(size: int) -> list[float]:
     for i in range(size):
         while True:
-            row_str = get_input("$ ")
-            row = row_str.split()
-            if len(row) != size + 1:
-                print("Entered incorrect number of numbers. Try again.")
-                continue
-            try:
-                row = [float(f) for f in row_str.split()]
-            except ValueError:
-                print("Entered incorrect values. Try again.")
-                continue
-            return row
+            row_str = __get_input("$ ")
+            if check_matrix_row(row_str, size):
+                row_str.replace(",", ".")
+                return [float(f) for f in row_str.split()]
+            else:
+                __tell_to_try_again()
 
 
 def get_matrix_from_file(filename: str) -> list[list[float]]:
@@ -95,14 +92,6 @@ def print_matrix(matrix: list[list[float]]):
         print()
 
 
-def print_joined_matrix(matrix: list[list[float]]):
-    for i in range(len(matrix)):
-        for j in range(len(matrix[i])):
-            cur = matrix[i][j] if matrix[i][j] != 0 else abs(matrix[i][j])
-            print(cur if cur < 0 else f" {cur}", end="  | " if j == len(matrix[i]) - 2 else "   ")
-        print()
-
-
 def print_equation_system(matrix: list[list[float]]):
     print("Entered system:")
     for i in range(len(matrix)):
@@ -112,6 +101,19 @@ def print_equation_system(matrix: list[list[float]]):
             equation += f" + {matrix[i][j + 1]}{arg_list[j + 1]}"
         equation += f" = {matrix[i][-1]}"
         print(equation)
+
+
+def print_triangular_matrix(matrix: list[list[float]]):
+    print("The matrix after conversion to triangular form:")
+    __print_joined_matrix(matrix)
+
+
+def __print_joined_matrix(matrix: list[list[float]]):
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            cur = matrix[i][j] if matrix[i][j] != 0 else abs(matrix[i][j])
+            print(cur if cur < 0 else f" {cur}", end="  | " if j == len(matrix[i]) - 2 else "   ")
+        print()
 
 
 def print_solution(solution: list[float]):
