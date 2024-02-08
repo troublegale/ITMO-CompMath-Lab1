@@ -36,7 +36,6 @@ def check_gauss_applicability(matrix: list[list[float]]):
     print(f"Determinant of the coefficients matrix is {det}. Using Gauss method to solve the system.")
 
 
-
 def get_matrix_from_user_input() -> list[list[float]]:
     size = read_matrix_size_from_user_input()
     return read_matrix_from_user_input(size)
@@ -50,6 +49,9 @@ def read_matrix_size_from_user_input() -> int:
             size = int(size)
             if size > 20:
                 print("This program is designed to work with matrices with size <= 20. Enter a lesser size.")
+                continue
+            if size < 1:
+                print("Matrix can't be of this size.")
                 continue
         except ValueError:
             print("Please, enter an integer.")
