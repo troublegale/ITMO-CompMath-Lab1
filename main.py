@@ -20,6 +20,5 @@ if __name__ == "__main__":
             continue
         tell_good_matrix(det)
         print()
-        solution = get_solution(matrix)
-        print_solution(solution)
+        print_solution(get_solution(matrix))
         print()
