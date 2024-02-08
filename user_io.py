@@ -43,13 +43,13 @@ def get_matrix() -> list[list[float]]:
     return get_matrix_from_file(input_method)
 
 
-def get_matrix_from_user_input() -> list[list[float]]:
+def __get_matrix_from_user_input() -> list[list[float]]:
     size = read_matrix_size_from_user_input()
     print()
     return read_matrix_from_user_input(size)
 
 
-def read_matrix_size_from_user_input() -> int:
+def __read_matrix_size_from_user_input() -> int:
     print("Enter size of the matrix (an integer from 1 to 20):")
     while True:
         size = __get_input("$ ")
@@ -59,7 +59,7 @@ def read_matrix_size_from_user_input() -> int:
             __tell_to_try_again()
 
 
-def read_matrix_from_user_input(size: int) -> list[list[float]]:
+def __read_matrix_from_user_input(size: int) -> list[list[float]]:
     print("Enter the equations, each one on the separate line.")
     print(f"For each equation enter {size} coefficients for the unknowns and the free term "
           f"({size + 1} total float numbers).")
@@ -69,7 +69,7 @@ def read_matrix_from_user_input(size: int) -> list[list[float]]:
     return matrix
 
 
-def read_row_from_user_input(size: int) -> list[float]:
+def __read_row_from_user_input(size: int) -> list[float]:
     for i in range(size):
         while True:
             row_str = __get_input("$ ")
@@ -80,16 +80,8 @@ def read_row_from_user_input(size: int) -> list[float]:
                 __tell_to_try_again()
 
 
-def get_matrix_from_file(filename: str) -> list[list[float]]:
+def __get_matrix_from_file(filename: str) -> list[list[float]]:
     file = open(filename, "r")
-
-
-def print_matrix(matrix: list[list[float]]):
-    for i in range(len(matrix)):
-        for j in range(len(matrix[i])):
-            cur = matrix[i][j] if matrix[i][j] != 0 else abs(matrix[i][j])
-            print(cur if cur < 0 else f" {cur}", end="   ")
-        print()
 
 
 def print_equation_system(matrix: list[list[float]]):
