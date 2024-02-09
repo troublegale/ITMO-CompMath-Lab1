@@ -1,3 +1,6 @@
+from fractions import Fraction
+
+
 def get_solution(matrix: list[list[float]]) -> list[float]:
     rows, cols = len(matrix), len(matrix[0])
     solutions = [0.0] * rows

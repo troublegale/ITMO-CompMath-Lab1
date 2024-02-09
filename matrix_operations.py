@@ -12,8 +12,9 @@ def to_triangular_form(matrix: list[list[float]]) -> int:
     for cur in range(rows):
         non_zero_row = next((i for i in range(cur, rows) if matrix[i][cur] != 0), None)
         if non_zero_row is not None:
-            swap_rows(matrix, cur, non_zero_row)
-            swaps += 1
+            if non_zero_row != cur:
+                swap_rows(matrix, cur, non_zero_row)
+                swaps += 1
             for i in range(cur + 1, rows):
                 factor = -matrix[i][cur] / matrix[cur][cur]
                 add_scaled_row(matrix, cur, i, factor)

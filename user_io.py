@@ -1,5 +1,6 @@
 from utility import *
 from checks import *
+from fractions import Fraction
 
 
 def __get_input(message: str) -> str:
