@@ -1,6 +1,7 @@
 from utility import *
 from checks import *
 from fractions import Fraction
+mode = True
 
 
 def __get_input() -> str:
@@ -10,7 +11,7 @@ def __get_input() -> str:
         close_application_appropriately()
 
 
-def __shape(number: Fraction, mode: bool) -> str:
+def __shape(number: Fraction) -> str:
     return str(number) if mode else str(float(number))
 
 
@@ -22,22 +23,24 @@ def tell_bad_matrix():
     print("Determinant of this matrix is 0, thus Gauss method can not be used to solve this system. Try another one.")
 
 
-def tell_good_matrix(det: Fraction, mode: bool):
-    print(f"Determinant of this matrix is {__shape(det, mode)}. Using Gauss method to solve the system.")
+def tell_good_matrix(det: Fraction):
+    print(f"Determinant of this matrix is {__shape(det)}. Using Gauss method to solve the system.")
 
 
 def start():
     print("\n*** Computational Mathematics, Lab 1: System of linear algebraic equations ***\n")
 
 
-def get_display_mode() -> bool:
+def get_display_mode():
     print("Please, choose the number display mode (fractional or decimal). Enter 1 or 2 to choose the respective mode.")
+    global mode
     while True:
         answer = __get_input().strip()
-        if answer != "1" and answer != "2":
+        if not check_display_mode(answer):
             print("Please, enter 1 or 2.")
             continue
-        return answer == "1"
+        mode = answer == "1"
+        break
 
 
 def __determine_input_method() -> str:
@@ -99,36 +102,36 @@ def __get_matrix_from_file(filename: str) -> list[list[Fraction]]:
     file = open(filename, "r")
 
 
-def print_equation_system(matrix: list[list[Fraction]], mode: bool):
+def print_equation_system(matrix: list[list[Fraction]]):
     print("Entered system:")
     for i in range(len(matrix)):
         arg_list = [f"x{index + 1}" for index in range(len(matrix[i]))]
-        equation = f"{__shape(matrix[i][0], mode)}{arg_list[0]}"
+        equation = f"{__shape(matrix[i][0])}{arg_list[0]}"
         for j in range(len(matrix[i]) - 2):
             if matrix[i][j + 1] >= 0:
-                equation += f" + {__shape(matrix[i][j + 1], mode)}{arg_list[j + 1]}"
+                equation += f" + {__shape(matrix[i][j + 1])}{arg_list[j + 1]}"
             else:
-                equation += f" - {__shape(-matrix[i][j + 1], mode)}{arg_list[j + 1]}"
-        equation += f" = {__shape(matrix[i][-1], mode)}"
+                equation += f" - {__shape(-matrix[i][j + 1])}{arg_list[j + 1]}"
+        equation += f" = {__shape(matrix[i][-1])}"
         print(equation)
 
 
-def print_triangular_matrix(matrix: list[list[Fraction]], mode: bool):
+def print_triangular_matrix(matrix: list[list[Fraction]]):
     print("The matrix after conversion to triangular form:")
-    __print_joined_matrix(matrix, mode)
+    __print_joined_matrix(matrix)
 
 
-def __print_joined_matrix(matrix: list[list[Fraction]], mode: bool):
+def __print_joined_matrix(matrix: list[list[Fraction]]):
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
             cur = matrix[i][j]
-            print(__shape(cur, mode) if cur < 0 else f" {__shape(cur, mode)}",
+            print(__shape(cur) if cur < 0 else f" {__shape(cur)}",
                   end="  | " if j == len(matrix[i]) - 2 else "   ")
         print()
 
 
-def print_solution(solution: list[Fraction], mode: bool):
+def print_solution(solution: list[Fraction]):
     arg_list = [f"x{index + 1}" for index in range(len(solution))]
     print("Solution: ")
     for i in range(len(solution)):
-        print(f"{arg_list[i]} = {__shape(solution[i], mode)}", end=(";  " if i != len(solution) - 1 else "\n"))
+        print(f"{arg_list[i]} = {__shape(solution[i])}", end=(";  " if i != len(solution) - 1 else "\n"))

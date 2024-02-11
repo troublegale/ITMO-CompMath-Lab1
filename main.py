@@ -5,22 +5,22 @@ from gauss import get_solution
 
 if __name__ == "__main__":
     start()
-    mode = get_display_mode()
+    get_display_mode()
     print()
     while True:
         matrix = get_matrix()
         print()
-        print_equation_system(matrix, mode)
+        print_equation_system(matrix)
         print()
         swaps = to_triangular_form(matrix)
-        print_triangular_matrix(matrix, mode)
+        print_triangular_matrix(matrix)
         print()
         det = determinant(matrix, swaps)
         if not det:
             tell_bad_matrix()
             print()
             continue
-        tell_good_matrix(det, mode)
+        tell_good_matrix(det)
         print()
-        print_solution(get_solution(matrix), mode)
+        print_solution(get_solution(matrix))
         print()
