@@ -1,7 +1,6 @@
-from user_io import *
-from matrix_operations import get_triangular_form, determinant
 from gauss import get_solution
-
+from matrix_operations import get_triangular_form, determinant
+from user_io import *
 
 if __name__ == "__main__":
     start()

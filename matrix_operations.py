@@ -1,5 +1,5 @@
-from fractions import Fraction
 from decimal import Decimal
+from fractions import Fraction
 
 
 def swap_rows(matrix: list[list[Fraction]], row1: int, row2: int):
@@ -34,7 +34,7 @@ def determinant(matrix: list[list[Fraction]], swaps: int) -> Fraction:
     return det
 
 
-def get_mismatch_vector(matrix: list[list[Fraction]], solution: list[Fraction], mode: bool)\
+def get_mismatch_vector(matrix: list[list[Fraction]], solution: list[Fraction], mode: bool) \
         -> list[Fraction] | list[Decimal]:
     mismatch_vector = ([Fraction(0)] if mode else [Decimal(0)]) * len(solution)
     for i in range(len(matrix)):

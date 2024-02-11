@@ -1,6 +1,6 @@
 import random
-from fractions import Fraction
 from decimal import Decimal
+from fractions import Fraction
 
 
 def str_to_fraction(s: str) -> Fraction:
@@ -21,7 +21,7 @@ def generate_random_matrix(size: int) -> list[list[Fraction]]:
 
 
 def get_coefficients_matrix(matrix: list[list]) -> list[list]:
-    return [matrix[i][:len(matrix[i])-1] for i in range(len(matrix))]
+    return [matrix[i][:len(matrix[i]) - 1] for i in range(len(matrix))]
 
 
 def close_application_appropriately():

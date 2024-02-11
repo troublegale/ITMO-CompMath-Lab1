@@ -1,4 +1,5 @@
 from fractions import Fraction
+
 from checks import check_file_contents
 from utility import str_to_fraction
 

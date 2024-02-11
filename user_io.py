@@ -1,9 +1,7 @@
-from utility import *
 from checks import *
-from fractions import Fraction
 from files import try_to_read_matrix_from_file
 from matrix_operations import get_mismatch_vector
-
+from utility import *
 
 mode = True
 

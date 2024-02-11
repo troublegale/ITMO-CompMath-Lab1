@@ -1,4 +1,3 @@
-import typing
 from os import access, R_OK, path
 
 
@@ -6,7 +5,7 @@ def check_display_mode(mode: str) -> bool:
     return mode == '1' or mode == '2'
 
 
-def check_matrix_size(size_str: str,) -> bool:
+def check_matrix_size(size_str: str) -> bool:
     try:
         size = int(size_str)
         return 1 <= size <= 20
