@@ -1,5 +1,5 @@
 from user_io import *
-from matrix_operations import to_triangular_form, determinant
+from matrix_operations import get_triangular_form, determinant
 from gauss import get_solution
 
 
@@ -9,18 +9,20 @@ if __name__ == "__main__":
     print()
     while True:
         matrix = get_matrix()
-        print()
         print_equation_system(matrix)
         print()
-        swaps = to_triangular_form(matrix)
-        print_triangular_matrix(matrix)
+        triangular_matrix, swaps = get_triangular_form(matrix)
+        print_triangular_matrix(triangular_matrix)
         print()
-        det = determinant(matrix, swaps)
+        det = determinant(triangular_matrix, swaps)
         if not det:
             tell_bad_matrix()
             print()
             continue
         tell_good_matrix(det)
         print()
-        print_solution(get_solution(matrix))
+        solution = get_solution(triangular_matrix)
+        print_solution(solution)
+        print()
+        print_mismatch_vector(matrix, solution)
         print()

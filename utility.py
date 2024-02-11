@@ -3,7 +3,7 @@ from fractions import Fraction
 from decimal import Decimal
 
 
-def input_string_to_fraction(s: str) -> Fraction:
+def str_to_fraction(s: str) -> Fraction:
     d = Decimal(s)
     f = format(d, '.32f').rstrip('0')
     parts = f.split('.')

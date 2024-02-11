@@ -1,6 +1,10 @@
 from utility import *
 from checks import *
 from fractions import Fraction
+from files import try_to_read_matrix_from_file
+from matrix_operations import get_mismatch_vector
+
+
 mode = True
 
 
@@ -17,6 +21,14 @@ def __shape(number: Fraction) -> str:
 
 def __tell_to_try_again():
     print("Your input doesn't meet the criteria. Try again.")
+
+
+def __tell_bad_file(filename: str):
+    print(f"File '{filename}' does not exist or is inaccessible. Please, try another data input method.")
+
+
+def __tell_bad_file_contents(filename: str):
+    print(f"File '{filename}' has invalid contents. Please, check the file input format in the Readme.")
 
 
 def tell_bad_matrix():
@@ -51,14 +63,18 @@ def __determine_input_method() -> str:
 
 
 def get_matrix() -> list[list[Fraction]]:
-    input_method = __determine_input_method()
-    print()
-    if not input_method:
-        return __get_matrix_from_user_input()
-    if input_method == "-r":
-        size = __read_matrix_size_from_user_input()
-        return generate_random_matrix(size)
-    return __get_matrix_from_file(input_method)
+    while True:
+        input_method = __determine_input_method()
+        print()
+        if not input_method:
+            return __get_matrix_from_user_input()
+        if input_method == "-r":
+            size = __read_matrix_size_from_user_input()
+            print()
+            return generate_random_matrix(size)
+        matrix = __try_to_get_matrix_from_file(input_method)
+        if matrix is not None:
+            return matrix
 
 
 def __get_matrix_from_user_input() -> list[list[Fraction]]:
@@ -84,6 +100,7 @@ def __read_matrix_from_user_input(size: int) -> list[list[Fraction]]:
     matrix = [[Fraction(0)] * (size + 1) for _ in range(size)]
     for i in range(size):
         matrix[i] = __read_row_from_user_input(size)
+    print()
     return matrix
 
 
@@ -93,13 +110,19 @@ def __read_row_from_user_input(size: int) -> list[Fraction]:
             row_str = __get_input()
             row_str.replace(",", ".")
             if check_matrix_row(row_str, size):
-                return [input_string_to_fraction(f) for f in row_str.split()]
+                return [str_to_fraction(f) for f in row_str.split()]
             else:
                 __tell_to_try_again()
 
 
-def __get_matrix_from_file(filename: str) -> list[list[Fraction]]:
-    file = open(filename, "r")
+def __try_to_get_matrix_from_file(filename: str) -> list[list[Fraction]] | None:
+    if not check_file_exists(filename) or not check_file_accessible(filename):
+        __tell_bad_file(filename)
+        return None
+    matrix = try_to_read_matrix_from_file(filename)
+    if matrix is None:
+        __tell_bad_file_contents(filename)
+    return matrix
 
 
 def print_equation_system(matrix: list[list[Fraction]]):
@@ -132,6 +155,14 @@ def __print_joined_matrix(matrix: list[list[Fraction]]):
 
 def print_solution(solution: list[Fraction]):
     arg_list = [f"x{index + 1}" for index in range(len(solution))]
-    print("Solution: ")
+    print("Solution:")
     for i in range(len(solution)):
         print(f"{arg_list[i]} = {__shape(solution[i])}", end=(";  " if i != len(solution) - 1 else "\n"))
+
+
+def print_mismatch_vector(matrix: list[list[Fraction]], solution: list[Fraction]):
+    mismatch_vector = get_mismatch_vector(matrix, solution, mode)
+    arg_list = [f"r{index + 1}" for index in range(len(mismatch_vector))]
+    print("Mismatches:")
+    for i in range(len(mismatch_vector)):
+        print(f"{arg_list[i]} = {mismatch_vector[i]}", end=(";  " if i != len(mismatch_vector) - 1 else "\n"))
