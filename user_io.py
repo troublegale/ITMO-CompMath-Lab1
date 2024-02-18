@@ -106,7 +106,7 @@ def __read_row_from_user_input(size: int) -> list[Fraction]:
     for i in range(size):
         while True:
             row_str = __get_input()
-            row_str.replace(",", ".")
+            row_str = row_str.replace(",", ".")
             if check_matrix_row(row_str, size):
                 return [str_to_fraction(f) for f in row_str.split()]
             else:
