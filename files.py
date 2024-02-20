@@ -15,7 +15,7 @@ def try_to_read_matrix_from_file(filename: str) -> list[list[Fraction]] | None:
             break
     matrix = [[Fraction(0)] * (size + 1) for _ in range(size)]
     for i in range(size):
-        row_str = file.readline()
+        row_str = file.readline().replace(',', '.')
         matrix[i] = [str_to_fraction(f) for f in row_str.split()]
     file.close()
     return matrix
